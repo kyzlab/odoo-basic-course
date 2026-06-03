@@ -1,3 +1,8 @@
+postgresql
+*/etc/addons/*
+*/etc/filestore/*
+*/etc/sessions/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
