@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_zoo_creature" model="ir.actions.act_window">
+            <field name="name">Creature</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">zoo.creature</field>
+        </record>
+
+        <menuitem id="menu_zoo_creature"
+            name="Creature"
+            action="action_zoo_creature"
+            sequence="20"
+            parent="menu_zoo"
+            groups="base.group_user"/>
+    </data>
+</odoo>
