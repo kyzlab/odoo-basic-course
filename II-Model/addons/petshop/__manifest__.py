@@ -17,6 +17,9 @@
         'security/ir.model.access.csv',
         'views/petshop_pet_views.xml',       # ← declare view
         'views/petshop_species_views.xml',   # ← declare view
+        'views/petshop_cage_views.xml',
+        'views/petshop_pet_meal_views.xml',
+        'views/petshop_vaccine_views.xml',
     ],
     'demo': [],
     'installable': True,

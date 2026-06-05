@@ -87,6 +87,14 @@ class PetshopPet(models.Model):
     # --- Related field: Mother's name ---
     mother_name = fields.Char('Mother Name', related='mother_id.name')
 
+    owner_id = fields.Many2one(comodel_name='res.partner', string='Owner', ondelete='set null')
+    vaccine_ids = fields.Many2many(comodel_name='petshop.vaccine',
+        string='Vaccines',
+        relation='pet_vaccine_rel',
+        column1='col_pet_vaccine_id',
+        column2='col_vaccine_pet_id'
+    )
+
     @api.depends('dob')
     def _compute_age(self):
         now = datetime.datetime.now()
