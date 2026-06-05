@@ -9,7 +9,10 @@
     'website': 'https://minhng.info',
     'category': 'Uncategorized', # https://github.com/odoo/odoo/blob/19.0/odoo/addons/base/data/ir_module_category_data.xml
     'version': '19.0.0.1',
-    'depends': [],
+    'depends': [
+	    'base',    # ← add
+	    'product', # ← add
+    ],
     'data': [
         'security/ir.model.access.csv',
         'views/petshop_pet_views.xml',       # ← declare view

@@ -35,6 +35,58 @@ class PetshopPet(models.Model):
     # Related field — reads name from the linked species record
     species_name = fields.Char('Species Name', related='species_id.name')
 
+    # --- Many2one: Cage, Doctor ---
+    cage_id = fields.Many2one(
+        comodel_name='petshop.cage',
+        string='Cage',
+        ondelete='set null'
+    )
+    doctor_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Attending Doctor'
+    )
+
+    # --- Self-referential: Mother & Father ---
+    mother_id = fields.Many2one(
+        comodel_name='petshop.pet',
+        string='Mother',
+        ondelete='set null'
+    )
+    father_id = fields.Many2one(
+        comodel_name='petshop.pet',
+        string='Father',
+        ondelete='set null'
+    )
+    female_children_ids = fields.One2many(
+        comodel_name='petshop.pet',
+        inverse_name='mother_id',
+        string='Female Children'
+    )
+    male_children_ids = fields.One2many(
+        comodel_name='petshop.pet',
+        inverse_name='father_id',
+        string='Male Children'
+    )
+    
+    # --- One2many: Meals ---
+    meal_ids = fields.One2many(
+        comodel_name='petshop.pet.meal',
+        inverse_name='pet_id',            # ← will create this field in the target model petshop.pet.meal
+        string='Meals'
+    )
+    
+    # --- Many2many: Toys ---
+    toy_ids = fields.Many2many(
+        comodel_name='product.product',
+        string='Toys',
+        relation='pet_product_toy_rel',  # intermediate table name
+        column1='col_pet_id',            # FK column pointing to petshop.pet
+        column2='col_product_id'         # FK column pointing to product.product
+    )   
+    
+    # --- Related field: Mother's name ---
+    mother_name = fields.Char('Mother Name', related='mother_id.name')
+
     @api.depends('dob')
     def _compute_age(self):
         now = datetime.datetime.now()
