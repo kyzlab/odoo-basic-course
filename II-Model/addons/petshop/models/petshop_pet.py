@@ -22,8 +22,8 @@ class PetshopPet(models.Model):
     introduction = fields.Html('Introduction (EN)')
 
     # ------------------
-	# | Computed field |
-	# ------------------
+    # | Computed field |
+    # ------------------
     age = fields.Integer('Age', compute='_compute_age')
 
     # Many2one — a pet belongs to one species
@@ -95,6 +95,13 @@ class PetshopPet(models.Model):
         column2='col_vaccine_pet_id'
     )
 
+    number_of_children = fields.Integer('Number of Children', compute='_compute_number_of_children', store=True)
+
+    @api.depends('female_children_ids', 'male_children_ids')
+    def _compute_number_of_children(self):
+        for record in self:
+            record.number_of_children = len(record.female_children_ids) + len(record.male_children_ids)
+
     @api.depends('dob')
     def _compute_age(self):
         now = datetime.datetime.now()
@@ -106,19 +113,50 @@ class PetshopPet(models.Model):
                 record.age = delta
             else:
                 record.age = 0
-		
-	# --------------------
-	# | Field validation |
-	# --------------------
+        
+    # --------------------
+    # | Field validation |
+    # --------------------
     @api.constrains('dob')
     def _check_dob(self):
         for record in self:
             if record.dob and record.dob.year < 1900:
                 raise ValidationError(_('Invalid date of birth!'))
-		
-	# ------------------
-	# | Field onchange |
-	# ------------------
+
+    @api.constrains('mother_id', 'father_id')
+    def _check_parent(self):
+        """Ensure mother and father are valid and different."""
+        for record in self:
+            if record.mother_id and record.father_id:
+                if record.mother_id.id == record.father_id.id:
+                    raise ValidationError(
+                        _('Mother and father cannot be the same animal!')
+                    )
+            if record.mother_id and record.mother_id.id == record.id:
+                raise ValidationError(
+                    _('The mother cannot be the animal itself!')
+                )
+            if record.father_id and record.father_id.id == record.id:
+                raise ValidationError(
+                    _('The father cannot be the animal itself!')
+                )
+
+    @api.constrains('gender', 'female_children_ids', 'male_children_ids')
+    def _check_gender_children(self):
+        """Ensure gender matches children types."""
+        for record in self:
+            if record.gender == 'male' and record.female_children_ids:
+                raise ValidationError(
+                    _('A male pet cannot have female children!')
+                )
+            if record.gender == 'female' and record.male_children_ids:
+                raise ValidationError(
+                    _('A female pet cannot have male children!')
+                )
+
+    # ------------------
+    # | Field onchange |
+    # ------------------
     @api.onchange('weight')
     def _update_weight_pound(self):
         self.weight_pound = self.weight * 2.204623
@@ -126,3 +164,58 @@ class PetshopPet(models.Model):
     @api.onchange('weight_pound')
     def _update_weight_kg(self):
         self.weight = self.weight_pound / 2.204623
+
+    @api.onchange('species_id')
+    def _onchange_species_id(self):
+        """When species changes, reset cage and suggest a domain."""
+        if self.species_id:
+            # Suggest a warning message (optional)
+            return {
+                'warning': {
+                    'title': 'Species Changed',
+                    'message': f'Species set to: {self.species_id.name}. Please verify the cage assignment.',
+                }
+            }
+        else:
+            # Clear cage if no species selected
+            self.cage_id = False
+
+    @api.model
+    def default_get(self, fields_list):
+        """Override to set smart default values when opening a new form."""
+        defaults = super().default_get(fields_list)
+        # Always default to alive
+        if 'is_alive' in fields_list:
+            defaults['is_alive'] = True
+        # Default gender to male
+        if 'gender' in fields_list:
+            defaults['gender'] = 'female'
+        return defaults
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Override create to run custom logic before/after record creation."""
+        for vals in vals_list:
+            # Auto-generate a nickname if not provided
+            if not vals.get('nickname') and vals.get('name'):
+                vals['nickname'] = vals['name'].split()[0]  # first word of name
+        records = super().create(vals_list)
+        # Post-creation logic: log a message
+        for record in records:
+            record.message_post(
+                body=f"Pet '{record.name}' has been created.",
+                message_type='comment'
+            ) if hasattr(record, 'message_post') else None
+        return records
+
+    @api.private
+    def _compute_internal_stats(self):
+        """
+        Private method — cannot be called via RPC.
+        Only accessible from Python code on the server.
+        """
+        return {
+            'total_toys': len(self.toy_ids),
+            'total_meals': len(self.meal_ids),
+            'age': self.age,
+        }
