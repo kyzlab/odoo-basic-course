@@ -20,11 +20,18 @@ class PetshopPet(models.Model):
     weight = fields.Float('Weight (kg)')
     weight_pound = fields.Float('Weight (lbs)')
     introduction = fields.Html('Introduction (EN)')
+    nickname = fields.Char()
 
     # ------------------
     # | Computed field |
     # ------------------
     age = fields.Integer('Age', compute='_compute_age')
+    number_of_children = fields.Integer('Number of Children', compute='_compute_number_of_children', store=True)
+    weight_category = fields.Selection([
+        ('light',   'Light'),
+        ('medium', 'Medium'),
+        ('heavy', 'Heavy'),
+    ], string='Weight Category', default=False, compute='_compute_weight_category', store=True)
 
     # Many2one — a pet belongs to one species
     species_id = fields.Many2one(
@@ -94,8 +101,6 @@ class PetshopPet(models.Model):
         column1='col_pet_vaccine_id',
         column2='col_vaccine_pet_id'
     )
-
-    number_of_children = fields.Integer('Number of Children', compute='_compute_number_of_children', store=True)
 
     @api.depends('female_children_ids', 'male_children_ids')
     def _compute_number_of_children(self):
@@ -199,6 +204,13 @@ class PetshopPet(models.Model):
             # Auto-generate a nickname if not provided
             if not vals.get('nickname') and vals.get('name'):
                 vals['nickname'] = vals['name'].split()[0]  # first word of name
+            if not vals.get('cage_id') and vals.get('species_id'):
+                assigned_species = self.env['petshop.species'].search([('id', '=', int(vals.get('species_id')))], limit=1)
+                if assigned_species and assigned_species.environment == 'water':
+                    default_aqua_cage = self.env['petshop.cage'].search([('code', '=', 'AQUA-01')], limit=1)
+                    if default_aqua_cage:
+                        vals['cage_id'] = default_aqua_cage.id
+                pass
         records = super().create(vals_list)
         # Post-creation logic: log a message
         for record in records:
@@ -218,4 +230,41 @@ class PetshopPet(models.Model):
             'total_toys': len(self.toy_ids),
             'total_meals': len(self.meal_ids),
             'age': self.age,
+        }
+
+    @api.depends('weight')
+    def _compute_weight_category(self):
+        for record in self:
+            if record.weight > 0 and record.weight < 2:
+                record.weight_category = 'light'
+            elif record.weight < 10:
+                record.weight_category = 'medium'
+            elif record.weight >= 10:
+                record.weight_category = 'heavy'
+        pass
+
+    @api.onchange('weight')
+    def _onchange_weight(self):
+        if self.weight > 50:
+            return {
+                'warning': {
+                    'title': 'Too heavy weight',
+                    'message': f'Weight is large: {self.weight} kg. Please verify the weight.',
+                }
+            }
+
+    @api.constrains('feed_time')
+    def _check_feed_time(self):
+        now = datetime.datetime.now()
+        for record in self:
+            if record.feed_time and record.feed_time > now:
+                raise ValidationError(_("Invalid feed time!"))
+
+    @api.private
+    def _get_pet_summary(self):
+        return {
+            'name': self.name,
+            'age': self.age,
+            'number_of_children': self.number_of_children,
+            'total_toys': len(self.toy_ids),
         }
