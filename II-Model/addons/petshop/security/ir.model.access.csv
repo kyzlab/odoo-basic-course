@@ -4,3 +4,4 @@ access_petshop_species,access_petshop_species,model_petshop_species,base.group_u
 access_petshop_cage,access_petshop_cage,model_petshop_cage,base.group_user,1,1,1,1
 access_petshop_pet_meal,access_petshop_pet_meal,model_petshop_pet_meal,base.group_user,1,1,1,1
 access_petshop_vaccine,access_petshop_vaccine,model_petshop_vaccine,base.group_user,1,1,1,1
+access_petshop_toy_add_wizard,access_petshop_toy_add_wizard,model_petshop_toy_add_wizard,base.group_user,1,1,1,1

@@ -20,6 +20,7 @@
         'views/petshop_cage_views.xml',
         'views/petshop_pet_meal_views.xml',
         'views/petshop_vaccine_views.xml',
+        'wizard/toy_add_wizard_views.xml',    # ← add this line
     ],
     'demo': [],
     'installable': True,
