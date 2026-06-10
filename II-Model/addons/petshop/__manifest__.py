@@ -21,6 +21,8 @@
         'views/petshop_pet_meal_views.xml',
         'views/petshop_vaccine_views.xml',
         'wizard/toy_add_wizard_views.xml',    # ← add this line
+        'wizard/toy_unlink_wizard_views.xml',
+        'wizard/cage_assign_wizard_views.xml',
     ],
     'demo': [],
     'installable': True,
