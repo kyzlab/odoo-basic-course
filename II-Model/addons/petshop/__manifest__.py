@@ -23,6 +23,7 @@
         'wizard/toy_add_wizard_views.xml',    # ← add this line
         'wizard/toy_unlink_wizard_views.xml',
         'wizard/cage_assign_wizard_views.xml',
+        'wizard/meal_batch_wizard_views.xml',
     ],
     'demo': [],
     'installable': True,
