@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_petshop_species" model="ir.actions.act_window">
+            <field name="name">Species</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">petshop.species</field>
+        </record>
+
+        <menuitem id="menu_petshop_species"
+            name="Species"
+            action="action_petshop_species"
+            sequence="20"
+            parent="menu_petshop"
+            groups="base.group_user"/>
+    </data>
+</odoo>
