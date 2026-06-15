@@ -18,5 +18,12 @@
             sequence="10"
             parent="menu_petshop"
             groups="base.group_user"/>
+        
+        <!-- New sub-menu "Configuration" -->
+        <menuitem id="menu_petshop_configuration"
+            name="Configuration"
+            sequence="100"
+            parent="menu_petshop"
+            groups="base.group_user"/>
     </data>
 </odoo>

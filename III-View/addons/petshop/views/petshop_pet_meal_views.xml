@@ -7,11 +7,12 @@
             <field name="res_model">petshop.pet.meal</field>
         </record>
 
+        <!-- Change "parent" attribute → "menu_petshop_configuration" -->
         <menuitem id="menu_petshop_pet_meal"
             name="Meal"
             action="action_petshop_pet_meal"
             sequence="40"
-            parent="menu_petshop"
+            parent="menu_petshop_configuration"
             groups="base.group_user"/>
     </data>
 </odoo>
