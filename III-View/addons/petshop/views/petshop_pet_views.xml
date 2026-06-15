@@ -14,9 +14,15 @@
 
         <menuitem id="menu_petshop_pet"
             name="Pets"
-            action="action_petshop_pet"
             sequence="10"
             parent="menu_petshop"
+            groups="base.group_user"/>
+
+        <menuitem id="menu_petshop_pet_pet"
+            name="Pets"
+            action="action_petshop_pet"
+            sequence="10"
+            parent="menu_petshop_pet"
             groups="base.group_user"/>
         
         <!-- New sub-menu "Configuration" -->

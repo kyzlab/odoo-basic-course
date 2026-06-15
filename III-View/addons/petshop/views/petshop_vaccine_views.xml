@@ -11,7 +11,7 @@
             name="Vaccine"
             action="action_petshop_vaccine"
             sequence="50"
-            parent="menu_petshop"
+            parent="menu_petshop_pet"
             groups="base.group_user"/>
     </data>
 </odoo>
