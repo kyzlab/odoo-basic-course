@@ -16,6 +16,14 @@ class PetshopPet(models.Model):
     ], string='Gender', default='male', required=True)
     feed_time = fields.Datetime('Last Feed Time', copy=False)
     is_alive = fields.Boolean('Alive', default=True)
+    state = fields.Selection([
+        ('available', 'Available'),
+        ('reserved', 'Reserved'),
+        ('sick', 'Sick'),
+        ('quarantine', 'Quarantine'),
+        ('sold', 'Sold'),
+        ('removed', 'Removed'),
+    ], string='State', default='available')
     image = fields.Binary('Image', attachment=True, help='Pet photo')
     weight = fields.Float('Weight (kg)')
     weight_pound = fields.Float('Weight (lbs)')
