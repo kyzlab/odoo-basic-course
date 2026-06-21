@@ -276,3 +276,12 @@ class PetshopPet(models.Model):
             'number_of_children': self.number_of_children,
             'total_toys': len(self.toy_ids),
         }
+
+    def action_report_sickness(self):
+        self.state = 'sick'
+
+    def action_recovered(self):
+        self.state = 'available'
+
+    def action_update_feed_time(self):
+        self.feed_time = fields.Datetime.now()

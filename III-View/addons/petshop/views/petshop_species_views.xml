@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="petshop_species_form_view" model="ir.ui.view">
+            <field name="name">petshop_species_form_view</field>
+            <field name="model">petshop.species</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Species" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="e.g. Cat"/></h1>
+                        </div>
+                        <group name="basic_info">
+                            <group>
+                                <field name="is_rare"/>
+                                <field name="environment"/>
+                            </group>
+                            <group>
+                                <field name="pet_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="petshop_species_list_view" model="ir.ui.view">
             <field name="name">petshop_species_list_view</field>
             <field name="model">petshop.species</field>
@@ -20,7 +44,8 @@
             <field name="res_model">petshop.species</field>
             <field name="view_mode">list,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_species_list_view')})]"/>
+                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_species_list_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_species_form_view')})]"/>
         </record>
 
         <!-- Change "parent" attribute → "menu_petshop_configuration" -->

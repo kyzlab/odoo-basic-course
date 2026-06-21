@@ -1,6 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>        
+    <data>
+        <record id="petshop_pet_form_view" model="ir.ui.view">
+            <field name="name">petshop_pet_form_view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- form content here -->
+                    <header>
+                        <button name="action_report_sickness" type="object"
+                            string="Report Sick" class="oe_default"
+                            invisible="state == 'sick'"/>
+                        <button name="action_recovered" type="object"
+                            string="Recovered" class="oe_default"
+                            invisible="state != 'sick'"/>
+                        <button name="action_update_feed_time" type="object"
+                            string="Feed" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name" string="Pet" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Fluffy the Cat"/>
+                            </h1>
+                            <label for="is_alive"/>
+                            <field name="is_alive"/>
+                        </div>
+                        <!-- ... group, notebook below -->
+                        <group name="basic_info" string="Basic Information">
+                            <group>
+                                <!-- left column (fields above) -->
+                                <field name="nickname"/>
+                                <field name="species_id" options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="species_name"/>                                
+                                <field name="gender"/>
+                                <field name="dob"/>
+                                <field name="age" invisible="not dob"/>
+                                <field name="weight"/>
+                                <field name="weight_pound" class="oe_edit_only"/>
+                                <field name="weight_category" invisible="not weight"/>
+                            </group>
+                            <group>
+                                <!-- right column (fields above) -->
+                                <field name="feed_time"/>
+                                <field name="cage_id" options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="doctor_id"/>
+                                <field name="mother_id"/>
+                                <field name="mother_name"/>
+                                <field name="father_id"/>
+                            </group>
+                        </group>
+                        <notebook name="misc">
+                            <page name="additional_info" string="Additional Info">
+                                <!-- tab content -->
+                                <group>
+                                    <group>
+                                        <label for="introduction" colspan="2"/>
+                                        <field name="introduction" colspan="2" nolabel="1"/>
+                                    </group>
+                                    <group>
+                                        <label for="description" colspan="2"/>
+                                        <field name="description" colspan="2" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="children" string="Children">
+                                <!-- tab content -->
+                                <group>
+                                    <group>
+                                        <field name="number_of_children"/>
+                                    </group>
+                                    <group/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <label for="female_children_ids" colspan="2"/>
+                                        <field name="female_children_ids" colspan="2"
+                                            nolabel="1" widget="many2many_tags"/>
+                                    </group>
+                                    <group>
+                                        <label for="male_children_ids" colspan="2"/>
+                                        <field name="male_children_ids" colspan="2"
+                                            nolabel="1" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="others" string="Others">
+                                <!-- tab content -->
+                                <group>
+                                    <group>
+                                        <field name="toy_ids" widget="many2many_tags"/>
+                                    </group>
+                                    <group>
+                                        <label for="meal_ids" colspan="2"/>
+                                        <field name="meal_ids" colspan="2" nolabel="1">
+                                            <list string="Meals" editable="bottom">
+                                                <field name="product_id"/>
+                                                <field name="volume"/>
+                                                <field name="meal_time"/>
+                                            </list>
+                                        </field>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="petshop_pet_list_view" model="ir.ui.view">
             <field name="name">petshop_pet_list_view</field>
             <field name="model">petshop.pet</field>
@@ -42,11 +152,13 @@
             <field name="name">Pets</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.pet</field>
-            <!-- Define view_ids -->
+            <!-- Define "view_mode" and "view_ids" -->
+            <field name="view_mode">list,form</field>
             <!-- <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_minimal_view')})]"/> -->
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')})]"/>
+                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_pet_form_view')})]"/>
         </record>
 
         <menuitem id="menu_petshop"
