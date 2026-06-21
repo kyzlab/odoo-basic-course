@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="view_petshop_vaccine_form" model="ir.ui.view">
+            <field name="name">petshop.vaccine.form</field>
+            <field name="model">petshop.vaccine</field>
+            <field name="arch" type="xml">
+                <form string="Vaccine">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="%(action_petshop_pet)d" type="action" class="oe_stat_button" icon="fa-paw"
+                                domain="[('vaccine_ids', 'in', [id])]">
+                                <field string="Pets" name="pet_ids" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" placeholder="e.g., Rabies Vaccine"/>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Details about the vaccine, dosage, schedule..."/>
+                            </page>
+                            <page string="Pets">
+                                <field name="pet_ids" nolabel="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="species_id"/>
+                                        <field name="gender"/>
+                                        <field name="is_alive"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="petshop_vaccine_list_view" model="ir.ui.view">
             <field name="name">petshop_vaccine_list_view</field>
             <field name="model">petshop.vaccine</field>
@@ -19,7 +54,8 @@
             <field name="res_model">petshop.vaccine</field>
             <field name="view_mode">list,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_vaccine_list_view')})]"/>
+                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_vaccine_list_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_petshop_vaccine_form')})]"/>
         </record>
 
         <menuitem id="menu_petshop_vaccine"
