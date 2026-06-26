@@ -148,17 +148,79 @@
             </field>
         </record>
 
+        <record id="petshop_pet_kanban_view" model="ir.ui.view">
+            <field name="name">petshop_pet_kanban_view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <!-- <kanban> -->
+                <kanban default_group_by="state" group_create="false" group_delete="false" group_edit="false">
+                    <field name="name"/>
+                    <field name="image"/>    <!-- declare the binary field -->
+                    <field name="species_id"/>
+                    <field name="gender"/>
+                    <field name="state"/>
+                    <field name="cage_id"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click d-flex">
+                                <!-- Image section (left) -->
+                                <!-- <aside>
+                                    <field name="image" widget="image" class="o_image_64_cover" alt="Pet Avatar"/>
+                                </aside> -->
+                                <aside class="o_kanban_aside_full">
+                                    <field name="image" widget="image" class="o_kanban_image_fill w-100" options="{'img_class': 'object-fit-cover'}" alt="Pet Avatar"/>
+                                </aside>
+                                <!-- Details section (right) -->
+                                <main class="ms-3">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <!-- Species and gender as plain text -->
+                                    <div class="text-muted small">
+                                        <t t-esc="record.species_id.value"/> ·
+                                        <t t-esc="record.gender.value"/>
+                                    </div>
+                                    <div class="mt-1">
+                                        <!-- State badge -->
+                                        <span t-if="record.state.raw_value=='sick'"
+                                            class="badge rounded-pill text-bg-danger"><t t-esc="record.state.value"/></span>
+                                        <span t-elif="record.state.raw_value=='quarantine'"
+                                            class="badge rounded-pill text-bg-warning"><t t-esc="record.state.value"/></span>
+                                        <span t-elif="record.state.raw_value=='removed'"
+                                            class="badge rounded-pill text-bg-light"><t t-esc="record.state.value"/></span>
+                                        <span t-elif="record.state.raw_value=='sold'"
+                                            class="badge rounded-pill text-bg-dark"><t t-esc="record.state.value"/></span>
+                                        <span t-elif="record.state.raw_value=='reserved'"
+                                            class="badge rounded-pill text-bg-info"><t t-esc="record.state.value"/></span>
+                                        <span t-else=""
+                                            class="badge rounded-pill text-bg-success"><t t-esc="record.state.value"/></span>
+
+                                        <!-- Cage badge — only show when cage assigned -->
+                                        <span t-if="record.cage_id.raw_value"
+                                            class="badge rounded-pill text-bg-secondary ms-1">
+                                            <t t-esc="record.cage_id.value"/>
+                                        </span>
+                                    </div>
+                                </main>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
         <record id="action_petshop_pet" model="ir.actions.act_window">
             <field name="name">Pets</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.pet</field>
             <!-- Define "view_mode" and "view_ids" -->
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">list,form,kanban</field>
             <!-- <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_minimal_view')})]"/> -->
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_pet_form_view')})]"/>
+                (0, 0, {'view_mode': 'list',   'view_id': ref('petshop_pet_list_view')}),
+                (0, 0, {'view_mode': 'form',   'view_id': ref('petshop_pet_form_view')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')})]"/>
         </record>
 
         <menuitem id="menu_petshop"
