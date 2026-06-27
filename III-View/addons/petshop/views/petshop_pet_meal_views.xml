@@ -68,15 +68,62 @@
             </field>
         </record>
 
+        <record id="petshop_pet_meal_graph_bar_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.graph.bar.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <graph type="bar" stacked="false">
+                    <field name="product_id" type="row"/>
+                    <field name="meal_time" type="col"/>
+                    <field name="volume" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_graph_line_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.graph.line.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <graph type="line">
+                    <field name="meal_time" type="row"/>
+                    <field name="volume" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_graph_pie_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.graph.pie.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <graph type="pie">
+                    <field name="product_id" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_pivot_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.pivot.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <pivot display_quantity="False" disable_linking="False">
+                    <field name="pet_id" type="row"/>
+                    <field name="product_id" type="col"/>
+                    <field name="volume" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
         <record id="action_petshop_pet_meal" model="ir.actions.act_window">
             <field name="name">Meal</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.pet.meal</field>
-            <field name="view_mode">list,kanban,form</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_meal_list_view')}),
                 (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_meal_kanban_view')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('view_petshop_pet_meal_form')})]"/>
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_petshop_pet_meal_form')}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('petshop_pet_meal_graph_pie_view')}),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('petshop_pet_meal_pivot_view')})]"/>
         </record>
 
         <!-- Change "parent" attribute → "menu_petshop_configuration" -->

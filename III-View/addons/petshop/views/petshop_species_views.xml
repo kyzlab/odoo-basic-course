@@ -66,15 +66,50 @@
             </field>
         </record>
 
+        <record id="petshop_species_graph_bar_view" model="ir.ui.view">
+            <field name="name">petshop.species.graph.bar.view</field>
+            <field name="model">petshop.species</field>
+            <field name="arch" type="xml">
+                <graph type="bar" stacked="false">
+                    <field name="environment" type="row"/>
+                    <field name="is_rare" type="col"/>
+                    <field name="pet_ids" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_species_graph_pie_view" model="ir.ui.view">
+            <field name="name">petshop.species.graph.pie.view</field>
+            <field name="model">petshop.species</field>
+            <field name="arch" type="xml">
+                <graph type="pie">
+                    <field name="environment" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_species_pivot_view" model="ir.ui.view">
+            <field name="name">petshop.species.pivot.view</field>
+            <field name="model">petshop.species</field>
+            <field name="arch" type="xml">
+                <pivot display_quantity="False" disable_linking="False">
+                    <field name="environment" type="row"/>
+                    <field name="is_rare" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
         <record id="action_petshop_species" model="ir.actions.act_window">
             <field name="name">Species</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.species</field>
-            <field name="view_mode">list,form,kanban</field>
+            <field name="view_mode">list,form,kanban,graph,pivot</field>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_species_list_view')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_species_form_view')}),
-                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_species_kanban_view')})]"/>
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_species_kanban_view')}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('petshop_species_graph_pie_view')}),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('petshop_species_pivot_view')})]"/>
         </record>
 
         <!-- Change "parent" attribute → "menu_petshop_configuration" -->
