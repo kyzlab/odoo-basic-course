@@ -209,18 +209,74 @@
             </field>
         </record>
 
+        <record id="petshop_pet_graph_bar_view" model="ir.ui.view">
+            <field name="name">petshop.pet.graph.bar.view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <graph type="bar" stacked="false">
+                    <!-- fields go here -->
+                    <field name="species_id" type="row"/>
+                    <field name="gender" type="col"/>
+                    <field name="weight" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_graph_line_view" model="ir.ui.view">
+            <field name="name">petshop.pet.graph.line.view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <graph type="line">
+                    <field name="dob" type="row"/>
+                    <field name="weight" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_graph_pie_view" model="ir.ui.view">
+            <field name="name">petshop.pet.graph.pie.view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <graph type="pie">
+                    <field name="gender" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_pivot_view" model="ir.ui.view">
+            <field name="name">petshop.pet.pivot.view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <pivot display_quantity="False" disable_linking="False">
+                    <field name="gender" type="col"/>
+                    <field name="cage_id" type="col"/>
+                    <field name="species_id" type="row"/>
+                    <field name="state" type="row"/>                    
+                    <field name="weight" type="measure"/>
+                    <!-- Support many measures (stored fields) -->
+                    <!-- <field name="number_of_children" type="measure"/> -->
+                </pivot>
+            </field>
+        </record>
+
         <record id="action_petshop_pet" model="ir.actions.act_window">
             <field name="name">Pets</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.pet</field>
             <!-- Define "view_mode" and "view_ids" -->
-            <field name="view_mode">list,form,kanban</field>
+            <field name="view_mode">list,form,kanban,graph,pivot</field>
             <!-- <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_minimal_view')})]"/> -->
+            <!-- <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list',   'view_id': ref('petshop_pet_list_view')}),
+                (0, 0, {'view_mode': 'form',   'view_id': ref('petshop_pet_form_view')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')})]"/> -->
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list',   'view_id': ref('petshop_pet_list_view')}),
                 (0, 0, {'view_mode': 'form',   'view_id': ref('petshop_pet_form_view')}),
-                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')})]"/>
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')}),
+                (0, 0, {'view_mode': 'graph',  'view_id': ref('petshop_pet_graph_pie_view')}),
+                (0, 0, {'view_mode': 'pivot',  'view_id': ref('petshop_pet_pivot_view')})]"/>
         </record>
 
         <menuitem id="menu_petshop"
