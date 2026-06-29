@@ -110,6 +110,25 @@ class PetshopPet(models.Model):
         column2='col_vaccine_pet_id'
     )
 
+    sibling_ids = fields.Many2many(
+        'petshop.pet',
+        string='Siblings',
+        compute='_compute_siblings',
+    )
+
+    @api.depends('mother_id', 'father_id')
+    def _compute_siblings(self):
+        for pet in self:
+            domain = [
+                ('id', '!=', pet.id), '|',
+                '&', ('mother_id', '!=', False), ('mother_id', '=', pet.mother_id.id),
+                '&', ('father_id', '!=', False), ('father_id', '=', pet.father_id.id),
+            ]
+            if pet.mother_id or pet.father_id:
+                pet.sibling_ids = self.search(domain)
+            else:
+                pet.sibling_ids = False
+
     @api.depends('female_children_ids', 'male_children_ids')
     def _compute_number_of_children(self):
         for record in self:

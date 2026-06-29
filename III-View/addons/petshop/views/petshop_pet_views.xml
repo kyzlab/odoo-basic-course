@@ -50,6 +50,8 @@
                                 <field name="mother_id"/>
                                 <field name="mother_name"/>
                                 <field name="father_id"/>
+                                <!-- Add siblings -->
+                                <field name="sibling_ids" widget="many2many_tags"/>
                             </group>
                         </group>
                         <notebook name="misc">
@@ -268,15 +270,15 @@
             <!-- <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_minimal_view')})]"/> -->
             <!-- <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'list',   'view_id': ref('petshop_pet_list_view')}),
-                (0, 0, {'view_mode': 'form',   'view_id': ref('petshop_pet_form_view')}),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_pet_form_view')}),
                 (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')})]"/> -->
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'list',   'view_id': ref('petshop_pet_list_view')}),
-                (0, 0, {'view_mode': 'form',   'view_id': ref('petshop_pet_form_view')}),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_pet_form_view')}),
                 (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')}),
-                (0, 0, {'view_mode': 'graph',  'view_id': ref('petshop_pet_graph_pie_view')}),
-                (0, 0, {'view_mode': 'pivot',  'view_id': ref('petshop_pet_pivot_view')})]"/>
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('petshop_pet_graph_pie_view')}),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('petshop_pet_pivot_view')})]"/>
         </record>
 
         <menuitem id="menu_petshop"
