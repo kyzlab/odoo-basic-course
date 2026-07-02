@@ -261,6 +261,31 @@
             </field>
         </record>
 
+        <record id="petshop_pet_search_view" model="ir.ui.view">
+            <field name="name">petshop.pet.search.view</field>
+            <field name="model">petshop.pet</field>
+            <field name="arch" type="xml">
+                <search string="Search Pets">
+                    <!-- elements go here -->
+                    <field name="nickname" string="Pet Nick Name"/>
+                    <field name="species_id" string="Species" filter_domain="['|', ('species_id.name', 'ilike', self), ('species_id', '=', self)]"/>
+                    <field name="doctor_id" string="Doctor"/>
+                    <!-- filters -->
+                    <filter string="Male" name="male_filter" domain="[('gender', '=', 'male')]"/>
+                    <filter string="Female" name="female_filter" domain="[('gender', '=', 'female')]"/>
+                    <filter string="Alive" name="alive_filter" domain="[('is_alive', '=', True)]"/>
+                    <filter string="Sick" name="sick_filter" domain="[('state', '=', 'sick')]"/>
+                    <separator/>
+                    <filter string="Fed Today" name="fed_today_filter" domain="[('feed_time', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+                    <group>
+                        <filter string="Gender"  name="group_by_gender" context="{'group_by': 'gender'}"/>
+                        <filter string="Species" name="group_by_species" context="{'group_by': 'species_id'}"/>
+                        <filter string="Status"  name="group_by_state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="action_petshop_pet" model="ir.actions.act_window">
             <field name="name">Pets</field>
             <field name="type">ir.actions.act_window</field>
@@ -273,6 +298,9 @@
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_pet_form_view')}),
                 (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_kanban_view')})]"/> -->
+            <!-- <field name="context">{'search_default_alive_filter': 1}</field> -->
+            <field name="context">{'search_default_alive_filter': 1, 'search_default_group_by_gender': True}</field>
+            <field name="search_view_id" ref="petshop_pet_search_view"/>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_list_view')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('petshop_pet_form_view')}),
