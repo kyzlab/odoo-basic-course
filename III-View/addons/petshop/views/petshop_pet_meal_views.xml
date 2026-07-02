@@ -113,11 +113,38 @@
             </field>
         </record>
 
+        <record id="petshop_pet_meal_search_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.search.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <search string="Search Meals">
+                    <!-- elements go here -->
+                    <field name="pet_id" string="Pet" filter_domain="['|', ('pet_id.name', 'ilike', self), ('pet_id', '=', self)]"/>
+                    <field name="product_id" string="Food" filter_domain="['|', ('product_id.name', 'ilike', self), ('product_id', '=', self)]"/>
+                    <field name="meal_time"/>
+                    <!-- filters -->
+                    <filter string="Morning" name="morning_filter" domain="[('meal_time', '=', 'morning')]"/>
+                    <filter string="Afternoon" name="afternoon_filter" domain="[('meal_time', '=', 'afternoon')]"/>
+                    <filter string="Evening" name="evening_filter" domain="[('meal_time', '=', 'evening')]"/>
+                    <filter string="Midnight" name="midnight_filter" domain="[('meal_time', '=', 'midnight')]"/>
+                    <separator/>
+                    <filter string="Today" name="today_filter" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+                    <group>
+                        <filter string="Pet" name="group_by_pet" context="{'group_by': 'pet_id'}"/>
+                        <filter string="Food" name="group_by_product" context="{'group_by': 'product_id'}"/>
+                        <filter string="Meal Time" name="group_by_meal_time" context="{'group_by': 'meal_time'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="action_petshop_pet_meal" model="ir.actions.act_window">
             <field name="name">Meal</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.pet.meal</field>
             <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="context">{'search_default_group_by_meal_time': 1}</field>
+            <field name="search_view_id" ref="petshop_pet_meal_search_view"/>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_meal_list_view')}),
                 (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_meal_kanban_view')}),

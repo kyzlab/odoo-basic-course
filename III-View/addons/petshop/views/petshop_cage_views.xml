@@ -88,11 +88,33 @@
             </field>
         </record>
 
+        <record id="petshop_cage_search_view" model="ir.ui.view">
+            <field name="name">petshop.cage.search.view</field>
+            <field name="model">petshop.cage</field>
+            <field name="arch" type="xml">
+                <search string="Search Cages">
+                    <!-- elements go here -->
+                    <field name="name" string="Cage Name"/>
+                    <field name="code" string="Cage Code"/>
+                    <field name="pet_ids" string="Pet" filter_domain="[('pet_ids.name', 'ilike', self)]"/>
+                    <!-- filters -->
+                    <filter string="Occupied" name="occupied_filter" domain="[('pet_ids', '!=', False)]"/>
+                    <filter string="Available" name="available_filter" domain="[('pet_ids', '=', False)]"/>
+                    <group>
+                        <filter string="Code" name="group_by_code" context="{'group_by': 'code'}"/>
+                        <filter string="Creation Date" name="group_by_create_date" context="{'group_by': 'create_date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="action_petshop_cage" model="ir.actions.act_window">
             <field name="name">Cage</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">petshop.cage</field>
             <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_available_filter': 1, 'search_default_group_by_code': 1}</field>
+            <field name="search_view_id" ref="petshop_cage_search_view"/>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_cage_list_view')}),
                 (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_cage_kanban_view')}),
