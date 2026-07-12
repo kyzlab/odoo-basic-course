@@ -1,3 +1,10 @@
+III-View/docker-compose.yml
+III-View/addons/petshop/__manifest__.py
+III-View/addons/petshop/data/petshop_data.xml
+IV-Controller/addons/petshop/__manifest__.py
+IV-Controller/addons/petshop/data/petshop_data.xml
+IV-Controller/docker-compose.yml
+
 postgresql
 */etc/addons/*
 */etc/filestore/*
@@ -221,9 +228,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-III-View/docker-compose.yml
-III-View/addons/petshop/__manifest__.py
-III-View/addons/petshop/data/petshop_data.xml
-IV-Controller/addons/petshop/__manifest__.py
-IV-Controller/addons/petshop/data/petshop_data.xml
-IV-Controller/docker-compose.yml
