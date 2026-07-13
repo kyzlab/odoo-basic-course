@@ -252,3 +252,174 @@ class PetshopController(odoo.http.Controller):
             'environment': environment,
         })
         return {'success': True, 'id': species.id, 'name': species.name}
+
+    # ------------------------------------------------------------------
+    # Exercise 4: POST /api/petshop/cage/create  (type='http', auth='user')
+    # ------------------------------------------------------------------
+    @odoo.http.route('/api/petshop/cage/create', type='http', auth='user', methods=['POST'], cors='*', csrf=False)
+    def create_cage(self, **kw):
+        """POST /api/petshop/cage/create — create a new cage.
+        JSON body: {"name": "Large Dog Kennel", "capacity": 5}
+        Validation: name required, capacity must be > 0.
+        Returns 201 on success.
+        """
+        # --- Parse JSON body ---
+        try:
+            body = request.httprequest.get_data(as_text=True)
+            data = _json.loads(body)
+        except Exception:
+            return request.make_json_response(
+                {'error': 'Invalid JSON body'}, status=400
+            )
+
+        # --- Validate required fields ---
+        name = data.get('name', False)
+        if not name:
+            return request.make_json_response(
+                {'error': 'Field "name" is required'}, status=400
+            )
+
+        capacity = data.get('capacity')
+        if capacity is None:
+            return request.make_json_response(
+                {'error': 'Field "capacity" is required'}, status=400
+            )
+        try:
+            capacity = int(capacity)
+        except (TypeError, ValueError):
+            return request.make_json_response(
+                {'error': 'Field "capacity" must be an integer'}, status=400
+            )
+        if capacity <= 0:
+            return request.make_json_response(
+                {'error': 'Field "capacity" must be greater than 0'}, status=400
+            )
+
+        # --- Create the cage record ---
+        try:
+            cage = request.env['petshop.cage'].create({
+                'name': name,
+                'capacity': capacity,
+            })
+            _logger.info("create_cage: created cage id=%s", cage.id)
+            return request.make_json_response({
+                'success': True, 
+                'id': cage.id, 
+                'name': cage.name,
+                'capacity': cage.capacity
+            }, status=201)
+        except Exception as e:
+            _logger.error("create_cage error: %s", e)
+            return request.make_json_response({'error': str(e)}, status=500)
+
+    # ------------------------------------------------------------------
+    # Exercise 5: PUT /api/petshop/cage/<int:cage_id>/assign  (type='http', auth='user')
+    # ------------------------------------------------------------------
+    @odoo.http.route('/api/petshop/cage/<int:cage_id>/assign', type='http', auth='user', methods=['PUT'], cors='*', csrf=False)
+    def assign_pet_to_cage(self, cage_id, **kw):
+        """PUT /api/petshop/cage/<id>/assign — assign a pet to this cage.
+        JSON body: {"pet_id": 3}
+        Validates that both the cage and the pet exist before writing.
+        """
+        # --- Validate cage existence ---
+        cage = request.env['petshop.cage'].browse(cage_id)
+        if not cage.exists():
+            _logger.warning("assign_pet_to_cage: cage_id=%s not found", cage_id)
+            return request.make_json_response({'error': 'Cage not found', 'cage_id': cage_id}, status=404)
+
+        # --- Parse JSON body ---
+        try:
+            body = request.httprequest.get_data(as_text=True)
+            data = _json.loads(body)
+        except Exception:
+            return request.make_json_response({'error': 'Invalid JSON body'}, status=400)
+
+        pet_id = data.get('pet_id')
+        if pet_id is None:
+            return request.make_json_response({'error': 'Field "pet_id" is required'}, status=400)
+        try:
+            pet_id = int(pet_id)
+        except (TypeError, ValueError):
+            return request.make_json_response({'error': 'Field "pet_id" must be an integer'}, status=400)
+
+        # --- Validate pet existence ---
+        pet = request.env['petshop.pet'].browse(pet_id)
+        if not pet.exists():
+            _logger.warning("assign_pet_to_cage: pet_id=%s not found", pet_id)
+            return request.make_json_response({'error': 'Pet not found', 'pet_id': pet_id}, status=404)
+
+        # --- Perform the assignment ---
+        try:
+            pet.write({'cage_id': cage.id})
+            _logger.info("assign_pet_to_cage: pet_id=%s -> cage_id=%s", pet_id, cage_id)
+            return request.make_json_response({
+                'success': True,
+                'pet_id': pet.id, 'pet_name': pet.name,
+                'cage_id': cage.id, 'cage_name': cage.name
+            }, status=200)
+        except Exception as e:
+            _logger.error("assign_pet_to_cage error: %s", e)
+            return request.make_json_response({'error': str(e)}, status=500)
+
+    # ------------------------------------------------------------------
+    # Exercise 6: POST /api/petshop/meal/create  (type='jsonrpc', auth='user')
+    # ------------------------------------------------------------------
+    @odoo.http.route('/api/petshop/meal/create', type='jsonrpc', auth='user', csrf=False)
+    def create_meal(self, pet_id, product, volume, **kw):
+        """POST /api/petshop/meal/create — create a new meal (JSON-RPC).
+        Params (JSON-RPC):
+          pet_id  — id of the pet receiving the meal (required)
+          product — name of the food product (required); looked up by name
+                    and created on the fly if it does not exist
+          volume  — amount in grams (required, must be > 0)
+        Returns a dict directly (jsonrpc convention).
+        """
+        # --- Validate pet_id ---
+        try:
+            pet_id = int(pet_id)
+        except (TypeError, ValueError):
+            return {'error': 'Field "pet_id" must be an integer'}
+        pet = request.env['petshop.pet'].browse(pet_id)
+        if not pet.exists():
+            _logger.warning("create_meal: pet_id=%s not found", pet_id)
+            return {'error': 'Pet not found', 'pet_id': pet_id}
+
+        # --- Validate product name ---
+        if not product:
+            return {'error': 'Field "product" is required'}
+
+        # --- Validate volume ---
+        try:
+            volume = float(volume)
+        except (TypeError, ValueError):
+            return {'error': 'Field "volume" must be a number'}
+        if volume <= 0:
+            return {'error': 'Field "volume" must be greater than 0'}
+
+        try:
+            # Look up the food product by name; create it if missing
+            Product = request.env['product.product']
+            product_rec = Product.search([('name', '=', product)], limit=1)
+            if not product_rec:
+                product_rec = Product.create({'name': product})
+                _logger.info("create_meal: created new product id=%s", product_rec.id)
+
+            meal = request.env['petshop.pet.meal'].create({
+                'pet_id': pet.id,
+                'product_id': product_rec.id,
+                'volume': volume,
+                'meal_time': kw.get('meal_time', 'morning'),
+            })
+            _logger.info("create_meal: created meal id=%s for pet_id=%s", meal.id, pet.id)
+            return {
+                'success': True,
+                'id': meal.id,
+                'pet_id': pet.id,
+                'product_id': product_rec.id,
+                'product': product_rec.name,
+                'volume': meal.volume,
+                'meal_time': meal.meal_time,
+            }
+        except Exception as e:
+            _logger.error("create_meal error: %s", e)
+            return {'error': str(e)}

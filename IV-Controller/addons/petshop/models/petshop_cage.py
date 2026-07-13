@@ -9,6 +9,11 @@ class PetshopCage(models.Model):
 
     name = fields.Char('Cage Name', required=True)
     code = fields.Char('Cage Code')
+    capacity = fields.Integer(
+        'Maximum Pets',
+        help='Maximum number of pets this cage can hold.',
+        default=1,
+    )
     length = fields.Float('Length (m)')
     width = fields.Float('Width (m)')
     height = fields.Float('Height (m)')

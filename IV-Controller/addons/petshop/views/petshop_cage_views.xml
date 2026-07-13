@@ -17,6 +17,7 @@
                             <group string="Identification">
                                 <field name="name" placeholder="e.g., Large Dog Kennel"/>
                                 <field name="code" placeholder="e.g., DOG-01"/>
+                                <field name="capacity"/>
                             </group>
                             <group string="Dimensions">
                                 <field name="length"/>
