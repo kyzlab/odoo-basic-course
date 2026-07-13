@@ -2,6 +2,7 @@ import odoo
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.http import request
 import datetime
+import json as _json
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -169,3 +170,85 @@ class PetshopController(odoo.http.Controller):
             return request.make_json_response(
                 {'error': 'Internal server error'}, status=500
             )
+
+    @odoo.http.route('/api/petshop/pet/create', type='http', auth='user', methods=['POST'], cors='*', csrf=False)
+    def create_pet(self, **kw):
+        """POST /api/petshop/pet/create — create a new pet (requires login)"""
+        try:
+            body = request.httprequest.get_data(as_text=True)
+            data = _json.loads(body)
+        except Exception:
+            return request.make_json_response({'error': 'Invalid JSON body'}, status=400)
+
+        name = data.get('name')
+        if not name:
+            return request.make_json_response({'error': 'Field "name" is required'}, status=400)
+
+        vals = {
+            'name':   name,
+            'gender': data.get('gender', 'male'),
+            'weight': float(data.get('weight', 0)),
+        }
+        if data.get('species_id'):
+            vals['species_id'] = int(data['species_id'])
+
+        try:
+            pet = request.env['petshop.pet'].create(vals)
+            return request.make_json_response(
+                {'success': True, 'id': pet.id, 'name': pet.name}, status=201
+            )
+        except Exception as e:
+            _logger.error("create_pet error: %s", e)
+            return request.make_json_response({'error': str(e)}, status=500)
+
+    @odoo.http.route('/api/petshop/pet/<int:pet_id>/update', type='http', auth='user', methods=['PUT'], cors='*', csrf=False)
+    def update_pet(self, pet_id, **kw):
+        """PUT /api/petshop/pet/<id>/update — update pet fields"""
+        pet = request.env['petshop.pet'].browse(pet_id)
+        if not pet.exists():
+            return request.make_json_response({'error': 'Pet not found'}, status=404)
+
+        try:
+            body = request.httprequest.get_data(as_text=True)
+            data = _json.loads(body)
+        except Exception:
+            return request.make_json_response({'error': 'Invalid JSON body'}, status=400)
+
+        vals = {}
+        if 'weight' in data:
+            vals['weight'] = float(data['weight'])
+        if 'gender' in data:
+            vals['gender'] = data['gender']
+
+        pet.write(vals)
+        return request.make_json_response({'success': True, 'id': pet.id}, status=200)
+
+    @odoo.http.route('/api/petshop/pet/<int:pet_id>/delete', type='http', auth='user', methods=['DELETE'], cors='*', csrf=False)
+    def delete_pet(self, pet_id, **kw):
+        """DELETE /api/petshop/pet/<id>/delete — unlink a pet record"""
+        pet = request.env['petshop.pet'].browse(pet_id)
+        if not pet.exists():
+            return request.make_json_response({'error': 'Pet not found'}, status=404)
+        pet.unlink()
+        return request.make_json_response({'success': True}, status=200)
+
+    @odoo.http.route(
+	    '/api/petshop/species/create',
+        type='jsonrpc',   # Odoo 19: 'jsonrpc' replaces 'json' from Odoo 18
+        auth='user',
+        csrf=False
+    )
+    def create_species(self, name, **kw):
+        """
+        POST /api/petshop/species/create
+        Body (JSON-RPC format):
+          {"jsonrpc": "2.0", "method": "call", "params": {"name": "Hamster", "environment": "ground"}}
+        """
+        if not name:
+            return {'error': 'Field "name" is required'}
+        environment = kw.get('environment', 'ground')
+        species = request.env['petshop.species'].create({
+            'name': name,
+            'environment': environment,
+        })
+        return {'success': True, 'id': species.id, 'name': species.name}
