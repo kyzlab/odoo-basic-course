@@ -228,3 +228,4 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+V-Inheritance/addons/petshop/data/petshop_data.xml
