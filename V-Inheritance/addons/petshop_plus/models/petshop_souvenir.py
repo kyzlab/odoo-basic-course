@@ -5,9 +5,7 @@ class PetshopSouvenir(models.Model):
     _inherits = {'petshop.pet': 'pet_id'}   # delegate field access to petshop.pet
     _description = 'Pet Souvenir'
 
-    pet_id = fields.Many2one(
-        'petshop.pet', required=True, ondelete='cascade', auto_join=True
-    )
+    pet_id = fields.Many2one('petshop.pet', required=True, ondelete='cascade', auto_join=True)
     souvenir_type = fields.Selection([
         ('toy', 'Toy'),
         ('photo', 'Photo'),
