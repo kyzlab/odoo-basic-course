@@ -7,6 +7,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/petshop_pet_views.xml',   # <- add view file
+        'views/petshop_species_views.xml',
+        'views/petshop_cage_views.xml',
     ],
     'installable': True,
     'auto_install': False,

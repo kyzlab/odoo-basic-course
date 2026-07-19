@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- ========================================================== -->
+        <!-- FORM VIEW INHERITANCE: petshop.cage                        -->
+        <!-- 1. Add "Verify Capacity" button to the header.             -->
+        <!-- 2. Hide the size field while any dimension is invalid.     -->
+        <!-- ========================================================== -->
+        <record id="petshop_cage_form_view_plus_inherit" model="ir.ui.view">
+            <field name="name">petshop.cage.form.view.plus.inherit</field>
+            <field name="model">petshop.cage</field>
+            <field name="inherit_id" ref="petshop.view_petshop_cage_form"/>
+            <field name="arch" type="xml">
+                <!-- Header button to verify capacity against current pets -->
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_verify_capacity" type="object"
+                            string="Verify Capacity" class="oe_highlight"/>
+                    </header>
+                </xpath>
+
+                <!-- Hide size when at least one dimension is missing or <= 0 -->
+                <xpath expr="//field[@name='size']" position="attributes">
+                    <attribute name="invisible">
+                        not length or not width or not height or length &lt;= 0 or width &lt;= 0 or height &lt;= 0
+                    </attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
