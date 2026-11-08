@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_petshop_pet_assign_cage" model="ir.ui.view">
+        <field name="name">view_petshop_pet_assign_cage</field>
+        <field name="model">petshop.cage.assign.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assign Cage">
+                <group>
+                    <group><field name="cage_id"/></group>
+                    <group/>
+                </group>
+                <p>Assign cage to the selected pet(s)?</p>
+                <footer>
+                    <button string="Confirm" name="action_cage_assign"
+                        type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_petshop_pet_assign_cage" model="ir.actions.act_window">
+        <field name="name">Assign Cage</field>
+        <field name="res_model">petshop.cage.assign.wizard</field>
+        <field name="binding_model_id" ref="model_petshop_pet"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_petshop_pet_assign_cage"/>
+    </record>
+</odoo>

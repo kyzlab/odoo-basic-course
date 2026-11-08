@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========== Species ========== -->
+        <record id="petshop_species_dog" model="petshop.species">
+            <field name="name">Dog</field>
+            <field name="environment">ground</field>
+            <field name="is_rare" eval="False"/>
+        </record>
+        <record id="petshop_species_cat" model="petshop.species">
+            <field name="name">Cat</field>
+            <field name="environment">ground</field>
+            <field name="is_rare" eval="False"/>
+        </record>
+        <record id="petshop_species_parrot" model="petshop.species">
+            <field name="name">Parrot</field>
+            <field name="environment">sky</field>
+            <field name="is_rare" eval="True"/>
+        </record>
+        <record id="petshop_species_goldfish" model="petshop.species">
+            <field name="name">Goldfish</field>
+            <field name="environment">water</field>
+            <field name="is_rare" eval="False"/>
+        </record>
+        <record id="petshop_species_rabbit" model="petshop.species">
+            <field name="name">Rabbit</field>
+            <field name="environment">ground</field>
+            <field name="is_rare" eval="False"/>
+        </record>
+
+        <!-- ========== Cages ========== -->
+        <record id="petshop_cage_dog_01" model="petshop.cage">
+            <field name="name">Large Dog Kennel</field>
+            <field name="code">DOG-01</field>
+            <field name="length">2.50</field>
+            <field name="width">1.50</field>
+            <field name="height">1.80</field>
+            <field name="description">Spacious outdoor kennel for large breed dogs</field>
+        </record>
+        <record id="petshop_cage_cat_01" model="petshop.cage">
+            <field name="name">Cat Condo</field>
+            <field name="code">CAT-01</field>
+            <field name="length">1.20</field>
+            <field name="width">0.80</field>
+            <field name="height">1.60</field>
+            <field name="description">Multi-level condo with scratching posts and resting platforms</field>
+        </record>
+        <record id="petshop_cage_bird_01" model="petshop.cage">
+            <field name="name">Bird Aviary</field>
+            <field name="code">BIRD-01</field>
+            <field name="length">2.00</field>
+            <field name="width">1.00</field>
+            <field name="height">1.80</field>
+            <field name="description">Large aviary with perches for parrots and small birds</field>
+        </record>
+        <record id="petshop_cage_aqua_01" model="petshop.cage">
+            <field name="name">Aquarium Tank</field>
+            <field name="code">AQUA-01</field>
+            <field name="length">1.00</field>
+            <field name="width">0.50</field>
+            <field name="height">0.40</field>
+            <field name="description">Glass aquarium tank with built-in filter system</field>
+        </record>
+        <record id="petshop_cage_rabbit_01" model="petshop.cage">
+            <field name="name">Rabbit Hutch</field>
+            <field name="code">RABBIT-01</field>
+            <field name="length">1.50</field>
+            <field name="width">0.70</field>
+            <field name="height">0.60</field>
+            <field name="description">Wooden hutch with outdoor run area and nesting box</field>
+        </record>
+
+        <!-- ========== Vaccines ========== -->
+        <record id="petshop_vaccine_rabies" model="petshop.vaccine">
+            <field name="name">Rabies Vaccine</field>
+            <field name="description">Prevents rabies infection in mammals; required by law in most regions</field>
+        </record>
+        <record id="petshop_vaccine_distemper" model="petshop.vaccine">
+            <field name="name">Canine Distemper</field>
+            <field name="description">Protects dogs against the highly contagious distemper virus</field>
+        </record>
+        <record id="petshop_vaccine_felv" model="petshop.vaccine">
+            <field name="name">Feline Leukemia</field>
+            <field name="description">Prevents feline leukemia virus infection in cats</field>
+        </record>
+        <record id="petshop_vaccine_parvo" model="petshop.vaccine">
+            <field name="name">Parvovirus</field>
+            <field name="description">Protects against deadly canine parvovirus</field>
+        </record>
+        <record id="petshop_vaccine_booster" model="petshop.vaccine">
+            <field name="name">Annual Booster</field>
+            <field name="description">Annual combination booster shot to maintain immunity</field>
+        </record>
+
+        <!-- ========== Partners: Doctors & Owners ========== -->
+        <record id="petshop_partner_dr_sarah" model="res.partner">
+            <field name="name">Dr. Sarah Johnson</field>
+            <field name="email">sarah.johnson@petcare.com</field>
+            <field name="phone">+1-555-0101</field>
+        </record>
+        <record id="petshop_partner_dr_michael" model="res.partner">
+            <field name="name">Dr. Michael Chen</field>
+            <field name="email">michael.chen@petcare.com</field>
+            <field name="phone">+1-555-0102</field>
+        </record>
+        <record id="petshop_partner_owner_john" model="res.partner">
+            <field name="name">John Smith</field>
+            <field name="email">john.smith@example.com</field>
+            <field name="phone">+1-555-0201</field>
+        </record>
+        <record id="petshop_partner_owner_emily" model="res.partner">
+            <field name="name">Emily Davis</field>
+            <field name="email">emily.davis@example.com</field>
+            <field name="phone">+1-555-0202</field>
+        </record>
+        <record id="petshop_partner_owner_robert" model="res.partner">
+            <field name="name">Robert Wilson</field>
+            <field name="email">robert.wilson@example.com</field>
+            <field name="phone">+1-555-0203</field>
+        </record>
+        <record id="petshop_partner_owner_lisa" model="res.partner">
+            <field name="name">Lisa Brown</field>
+            <field name="email">lisa.brown@example.com</field>
+            <field name="phone">+1-555-0204</field>
+        </record>
+
+        <!-- ========== Products: Food & Toys ========== -->
+        <record id="petshop_product_dog_food" model="product.product">
+            <field name="name">Premium Dog Food</field>
+            <field name="type">consu</field>
+            <field name="list_price">29.99</field>
+        </record>
+        <record id="petshop_product_cat_food" model="product.product">
+            <field name="name">Cat Kibble</field>
+            <field name="type">consu</field>
+            <field name="list_price">18.50</field>
+        </record>
+        <record id="petshop_product_bird_food" model="product.product">
+            <field name="name">Bird Seeds</field>
+            <field name="type">consu</field>
+            <field name="list_price">8.99</field>
+        </record>
+        <record id="petshop_product_fish_food" model="product.product">
+            <field name="name">Fish Flakes</field>
+            <field name="type">consu</field>
+            <field name="list_price">5.49</field>
+        </record>
+        <record id="petshop_product_rabbit_food" model="product.product">
+            <field name="name">Rabbit Pellets</field>
+            <field name="type">consu</field>
+            <field name="list_price">7.25</field>
+        </record>
+        <record id="petshop_product_squeaky_ball" model="product.product">
+            <field name="name">Squeaky Ball</field>
+            <field name="type">consu</field>
+            <field name="list_price">4.99</field>
+        </record>
+        <record id="petshop_product_feather_wand" model="product.product">
+            <field name="name">Feather Wand</field>
+            <field name="type">consu</field>
+            <field name="list_price">3.49</field>
+        </record>
+        <record id="petshop_product_mirror_toy" model="product.product">
+            <field name="name">Mirror Toy</field>
+            <field name="type">consu</field>
+            <field name="list_price">2.99</field>
+        </record>
+        <record id="petshop_product_castle_ornament" model="product.product">
+            <field name="name">Castle Ornament</field>
+            <field name="type">consu</field>
+            <field name="list_price">6.99</field>
+        </record>
+        <record id="petshop_product_chew_stick" model="product.product">
+            <field name="name">Chew Stick</field>
+            <field name="type">consu</field>
+            <field name="list_price">3.99</field>
+        </record>
+
+        <!-- ========== Pets: Parent Dogs ========== -->
+        <record id="petshop_pet_bella" model="petshop.pet">
+            <field name="name">Bella</field>
+            <field name="nickname">Bella</field>
+            <field name="gender">female</field>
+            <field name="dob">2019-03-15</field>
+            <field name="weight">28.5</field>
+            <field name="weight_pound">62.83</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">available</field>
+            <field name="feed_time">2026-06-15 08:30:00</field>
+            <field name="species_id" ref="petshop_species_dog"/>
+            <field name="cage_id" ref="petshop_cage_dog_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_sarah"/>
+            <field name="owner_id" ref="petshop_partner_owner_john"/>
+            <field name="description">Friendly golden retriever, loves to play fetch</field>
+            <field name="introduction">&lt;p&gt;Bella is a gentle and loyal companion who enjoys long walks and swimming.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_rabies'), ref('petshop_vaccine_distemper'), ref('petshop_vaccine_parvo')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_squeaky_ball'), ref('petshop_product_chew_stick')])]"/>
+        </record>
+        <record id="petshop_pet_max" model="petshop.pet">
+            <field name="name">Max</field>
+            <field name="nickname">Max</field>
+            <field name="gender">male</field>
+            <field name="dob">2018-07-22</field>
+            <field name="weight">32.0</field>
+            <field name="weight_pound">70.55</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">sold</field>
+            <field name="feed_time">2026-06-15 07:00:00</field>
+            <field name="species_id" ref="petshop_species_dog"/>
+            <field name="cage_id" ref="petshop_cage_dog_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_sarah"/>
+            <field name="owner_id" ref="petshop_partner_owner_john"/>
+            <field name="description">Energetic German shepherd, excellent guard dog</field>
+            <field name="introduction">&lt;p&gt;Max is a protective and intelligent German shepherd with extensive training.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_rabies'), ref('petshop_vaccine_distemper'), ref('petshop_vaccine_parvo')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_squeaky_ball')])]"/>
+        </record>
+
+        <!-- ========== Pets: Other Adult Pets ========== -->
+        <record id="petshop_pet_whiskers" model="petshop.pet">
+            <field name="name">Whiskers</field>
+            <field name="nickname">Whiskers</field>
+            <field name="gender">male</field>
+            <field name="dob">2020-01-10</field>
+            <field name="weight">4.5</field>
+            <field name="weight_pound">9.92</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">quarantine</field>
+            <field name="feed_time">2026-06-15 09:00:00</field>
+            <field name="species_id" ref="petshop_species_cat"/>
+            <field name="cage_id" ref="petshop_cage_cat_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_michael"/>
+            <field name="owner_id" ref="petshop_partner_owner_emily"/>
+            <field name="description">Curious tabby cat, loves exploring high places</field>
+            <field name="introduction">&lt;p&gt;Whiskers is an adventurous tabby who enjoys climbing and chasing laser pointers.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_felv'), ref('petshop_vaccine_booster')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_feather_wand')])]"/>
+        </record>
+        <record id="petshop_pet_mittens" model="petshop.pet">
+            <field name="name">Mittens</field>
+            <field name="nickname">Mittens</field>
+            <field name="gender">female</field>
+            <field name="dob">2021-05-05</field>
+            <field name="weight">3.8</field>
+            <field name="weight_pound">8.38</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">available</field>
+            <field name="feed_time">2026-06-15 10:00:00</field>
+            <field name="species_id" ref="petshop_species_cat"/>
+            <field name="cage_id" ref="petshop_cage_cat_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_michael"/>
+            <field name="owner_id" ref="petshop_partner_owner_emily"/>
+            <field name="description">Quiet Siamese cat, enjoys warm laps</field>
+            <field name="introduction">&lt;p&gt;Mittens is a calm and affectionate Siamese who loves sunny windowsills.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_felv'), ref('petshop_vaccine_booster')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_feather_wand')])]"/>
+        </record>
+        <record id="petshop_pet_peanut" model="petshop.pet">
+            <field name="name">Peanut</field>
+            <field name="nickname">Peanut</field>
+            <field name="gender">male</field>
+            <field name="dob">2022-08-12</field>
+            <field name="weight">0.45</field>
+            <field name="weight_pound">0.99</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">sick</field>
+            <field name="feed_time">2026-06-15 11:00:00</field>
+            <field name="species_id" ref="petshop_species_parrot"/>
+            <field name="cage_id" ref="petshop_cage_bird_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_michael"/>
+            <field name="owner_id" ref="petshop_partner_owner_robert"/>
+            <field name="description">African grey parrot, can mimic over 50 words</field>
+            <field name="introduction">&lt;p&gt;Peanut is a highly intelligent African grey parrot known for his impressive vocabulary.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_booster')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_mirror_toy')])]"/>
+        </record>
+        <record id="petshop_pet_bubbles" model="petshop.pet">
+            <field name="name">Bubbles</field>
+            <field name="nickname">Bubbles</field>
+            <field name="gender">male</field>
+            <field name="dob">2023-02-01</field>
+            <field name="weight">0.1</field>
+            <field name="weight_pound">0.22</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">reserved</field>
+            <field name="feed_time">2026-06-15 12:00:00</field>
+            <field name="species_id" ref="petshop_species_goldfish"/>
+            <field name="cage_id" ref="petshop_cage_aqua_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_michael"/>
+            <field name="owner_id" ref="petshop_partner_owner_lisa"/>
+            <field name="description">Bright orange goldfish, very active swimmer</field>
+            <field name="introduction">&lt;p&gt;Bubbles is a vibrant orange comet goldfish who loves swimming through castle ornaments.&lt;/p&gt;</field>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_castle_ornament')])]"/>
+        </record>
+        <record id="petshop_pet_thumper" model="petshop.pet">
+            <field name="name">Thumper</field>
+            <field name="nickname">Thumper</field>
+            <field name="gender">male</field>
+            <field name="dob">2021-11-20</field>
+            <field name="weight">2.2</field>
+            <field name="weight_pound">4.85</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">available</field>
+            <field name="feed_time">2026-06-15 13:00:00</field>
+            <field name="species_id" ref="petshop_species_rabbit"/>
+            <field name="cage_id" ref="petshop_cage_rabbit_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_sarah"/>
+            <field name="owner_id" ref="petshop_partner_owner_robert"/>
+            <field name="description">Holland lop rabbit, loves fresh carrots</field>
+            <field name="introduction">&lt;p&gt;Thumper is an adorable Holland lop with floppy ears who enjoys hopping around the garden.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_booster')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_chew_stick')])]"/>
+        </record>
+
+        <!-- ========== Pets: Children Dogs ========== -->
+        <record id="petshop_pet_charlie" model="petshop.pet">
+            <field name="name">Charlie</field>
+            <field name="nickname">Charlie</field>
+            <field name="gender">male</field>
+            <field name="dob">2021-09-03</field>
+            <field name="weight">12.5</field>
+            <field name="weight_pound">27.56</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">available</field>
+            <field name="feed_time">2026-06-15 08:00:00</field>
+            <field name="species_id" ref="petshop_species_dog"/>
+            <field name="cage_id" ref="petshop_cage_dog_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_sarah"/>
+            <field name="owner_id" ref="petshop_partner_owner_john"/>
+            <field name="mother_id" ref="petshop_pet_bella"/>
+            <field name="father_id" ref="petshop_pet_max"/>
+            <field name="description">Playful puppy, mix of retriever and shepherd</field>
+            <field name="introduction">&lt;p&gt;Charlie is a playful and curious puppy who loves running in the park.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_rabies'), ref('petshop_vaccine_parvo')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_squeaky_ball')])]"/>
+        </record>
+        <record id="petshop_pet_luna" model="petshop.pet">
+            <field name="name">Luna</field>
+            <field name="nickname">Luna</field>
+            <field name="gender">female</field>
+            <field name="dob">2022-04-18</field>
+            <field name="weight">22.0</field>
+            <field name="weight_pound">48.50</field>
+            <field name="is_alive" eval="True"/>
+            <field name="state">removed</field>
+            <field name="feed_time">2026-06-15 09:30:00</field>
+            <field name="species_id" ref="petshop_species_dog"/>
+            <field name="cage_id" ref="petshop_cage_dog_01"/>
+            <field name="doctor_id" ref="petshop_partner_dr_sarah"/>
+            <field name="owner_id" ref="petshop_partner_owner_john"/>
+            <field name="mother_id" ref="petshop_pet_bella"/>
+            <field name="father_id" ref="petshop_pet_max"/>
+            <field name="description">Sweet natured puppy, loves belly rubs</field>
+            <field name="introduction">&lt;p&gt;Luna is a gentle and sweet puppy who enjoys cuddles and gentle play.&lt;/p&gt;</field>
+            <field name="vaccine_ids" eval="[(6,0,[ref('petshop_vaccine_rabies'), ref('petshop_vaccine_distemper'), ref('petshop_vaccine_parvo')])]"/>
+            <field name="toy_ids" eval="[(6,0,[ref('petshop_product_squeaky_ball'), ref('petshop_product_chew_stick')])]"/>
+        </record>
+
+        <!-- ========== Meals: Bella ========== -->
+        <record id="petshop_meal_bella_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_bella"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">350</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_bella_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_bella"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">300</field>
+            <field name="meal_time">afternoon</field>
+        </record>
+        <record id="petshop_meal_bella_3" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_bella"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">350</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+        <!-- ========== Meals: Max ========== -->
+        <record id="petshop_meal_max_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_max"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">400</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_max_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_max"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">400</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+        <!-- ========== Meals: Charlie ========== -->
+        <record id="petshop_meal_charlie_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_charlie"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">250</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_charlie_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_charlie"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">250</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+        <!-- ========== Meals: Luna ========== -->
+        <record id="petshop_meal_luna_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_luna"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">300</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_luna_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_luna"/>
+            <field name="product_id" ref="petshop_product_dog_food"/>
+            <field name="volume">280</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+        <!-- ========== Meals: Whiskers ========== -->
+        <record id="petshop_meal_whiskers_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_whiskers"/>
+            <field name="product_id" ref="petshop_product_cat_food"/>
+            <field name="volume">80</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_whiskers_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_whiskers"/>
+            <field name="product_id" ref="petshop_product_cat_food"/>
+            <field name="volume">80</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+        <!-- ========== Meals: Mittens ========== -->
+        <record id="petshop_meal_mittens_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_mittens"/>
+            <field name="product_id" ref="petshop_product_cat_food"/>
+            <field name="volume">70</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_mittens_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_mittens"/>
+            <field name="product_id" ref="petshop_product_cat_food"/>
+            <field name="volume">70</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+        <!-- ========== Meals: Peanut ========== -->
+        <record id="petshop_meal_peanut_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_peanut"/>
+            <field name="product_id" ref="petshop_product_bird_food"/>
+            <field name="volume">30</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_peanut_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_peanut"/>
+            <field name="product_id" ref="petshop_product_bird_food"/>
+            <field name="volume">25</field>
+            <field name="meal_time">afternoon</field>
+        </record>
+
+        <!-- ========== Meals: Bubbles ========== -->
+        <record id="petshop_meal_bubbles_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_bubbles"/>
+            <field name="product_id" ref="petshop_product_fish_food"/>
+            <field name="volume">2</field>
+            <field name="meal_time">morning</field>
+        </record>
+
+        <!-- ========== Meals: Thumper ========== -->
+        <record id="petshop_meal_thumper_1" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_thumper"/>
+            <field name="product_id" ref="petshop_product_rabbit_food"/>
+            <field name="volume">60</field>
+            <field name="meal_time">morning</field>
+        </record>
+        <record id="petshop_meal_thumper_2" model="petshop.pet.meal">
+            <field name="pet_id" ref="petshop_pet_thumper"/>
+            <field name="product_id" ref="petshop_product_rabbit_food"/>
+            <field name="volume">50</field>
+            <field name="meal_time">evening</field>
+        </record>
+
+    </data>
+</odoo>
+

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_petshop_pet_meal_form" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.form</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <form string="Meal">
+                    <sheet>
+                        <group>
+                            <group string="Pet &amp; Schedule">
+                                <field name="pet_id" placeholder="Select the pet receiving this meal"/>
+                                <field name="meal_time"/>
+                            </group>
+                            <group string="Food">
+                                <field name="product_id" placeholder="Select the food product"/>
+                                <field name="volume" placeholder="Amount in grams"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_list_view" model="ir.ui.view">
+            <field name="name">petshop_pet_meal_list_view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <list string="Meals">
+                    <field name="pet_id"/>
+                    <field name="product_id"/>
+                    <field name="volume"/>
+                    <field name="meal_time"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_kanban_view" model="ir.ui.view">
+            <field name="name">petshop_pet_meal_kanban_view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="pet_id"/>
+                    <field name="product_id"/>
+                    <field name="volume"/>
+                    <field name="meal_time"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click p-3">
+                                <strong class="o_kanban_record_title">
+                                    <t t-esc="record.pet_id.value"/>
+                                </strong>
+                                <div class="text-muted small">
+                                    <t t-esc="record.product_id.value"/>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge rounded-pill text-bg-primary">
+                                        <t t-esc="record.volume.value"/> g
+                                    </span>
+                                    <span class="badge rounded-pill text-bg-light ms-1">
+                                        <t t-esc="record.meal_time.value"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_graph_bar_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.graph.bar.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <graph type="bar" stacked="false">
+                    <field name="product_id" type="row"/>
+                    <field name="meal_time" type="col"/>
+                    <field name="volume" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_graph_line_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.graph.line.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <graph type="line">
+                    <field name="meal_time" type="row"/>
+                    <field name="volume" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_graph_pie_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.graph.pie.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <graph type="pie">
+                    <field name="product_id" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_pivot_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.pivot.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <pivot display_quantity="False" disable_linking="False">
+                    <field name="pet_id" type="row"/>
+                    <field name="product_id" type="col"/>
+                    <field name="volume" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="petshop_pet_meal_search_view" model="ir.ui.view">
+            <field name="name">petshop.pet.meal.search.view</field>
+            <field name="model">petshop.pet.meal</field>
+            <field name="arch" type="xml">
+                <search string="Search Meals">
+                    <!-- elements go here -->
+                    <field name="pet_id" string="Pet" filter_domain="['|', ('pet_id.name', 'ilike', self), ('pet_id', '=', self)]"/>
+                    <field name="product_id" string="Food" filter_domain="['|', ('product_id.name', 'ilike', self), ('product_id', '=', self)]"/>
+                    <field name="meal_time"/>
+                    <!-- filters -->
+                    <filter string="Morning" name="morning_filter" domain="[('meal_time', '=', 'morning')]"/>
+                    <filter string="Afternoon" name="afternoon_filter" domain="[('meal_time', '=', 'afternoon')]"/>
+                    <filter string="Evening" name="evening_filter" domain="[('meal_time', '=', 'evening')]"/>
+                    <filter string="Midnight" name="midnight_filter" domain="[('meal_time', '=', 'midnight')]"/>
+                    <separator/>
+                    <filter string="Today" name="today_filter" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+                    <group>
+                        <filter string="Pet" name="group_by_pet" context="{'group_by': 'pet_id'}"/>
+                        <filter string="Food" name="group_by_product" context="{'group_by': 'product_id'}"/>
+                        <filter string="Meal Time" name="group_by_meal_time" context="{'group_by': 'meal_time'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_petshop_pet_meal" model="ir.actions.act_window">
+            <field name="name">Meal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">petshop.pet.meal</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="context">{'search_default_group_by_meal_time': 1}</field>
+            <field name="search_view_id" ref="petshop_pet_meal_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('petshop_pet_meal_list_view')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('petshop_pet_meal_kanban_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_petshop_pet_meal_form')}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('petshop_pet_meal_graph_pie_view')}),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('petshop_pet_meal_pivot_view')})]"/>
+        </record>
+
+        <!-- Change "parent" attribute → "menu_petshop_configuration" -->
+        <menuitem id="menu_petshop_pet_meal"
+            name="Meal"
+            action="action_petshop_pet_meal"
+            sequence="40"
+            parent="menu_petshop_configuration"
+            groups="base.group_user"/>
+    </data>
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- FORM VIEW INHERITANCE -->
+        <record id="petshop_pet_form_view_plus_inherit" model="ir.ui.view">
+            <field name="name">petshop.pet.form.view.plus.inherit</field>
+            <field name="model">petshop.pet</field>
+            <field name="inherit_id" ref="petshop.petshop_pet_form_view"/>
+            <field name="arch" type="xml">
+                <!-- Insert is_vaccinated and vaccine_note after the image field -->
+                <field name="sibling_ids" position="after">
+                    <field name="is_vaccinated"/>
+                    <field name="vaccine_note" readonly="not is_vaccinated"/>
+                </field>
+
+                <!-- Add new "Vaccination" tab to notebook -->
+                <notebook name="misc" position="inside">
+                    <page name="vaccination" string="Vaccination">
+                        <group>
+                            <group>
+                                <field name="is_vaccinated"/>
+                                <field name="vaccine_note"/>
+                            </group>
+                            <group/>
+                        </group>
+                    </page>
+                </notebook>
+
+                <!-- Add action button to header -->
+                <xpath expr="//header" position="inside">
+                    <button name="action_open_cage_detail" type="object" string="Open Cage" class="oe_highlight" invisible="not cage_id"/>
+                </xpath>
+
+                <!-- Remove mother_name field from view -->
+                <xpath expr="//field[@name='mother_name']" position="replace">
+                    <!-- leave empty = remove the element -->
+                </xpath>
+
+                <!-- Make age invisible if less than or equal to zero -->
+                <field name="age" position="attributes">
+                    <attribute name="invisible">age &lt;= 0</attribute>
+                </field>
+                <!-- Change display label of a page in notebook -->
+                <xpath expr="//notebook/page[@name='others']" position="attributes">
+                    <attribute name="string">Etc</attribute>
+                </xpath>
+
+                <!-- Move "Misc" page to after "Vaccination" page -->
+                <xpath expr="//notebook/page[@name='vaccination']" position="after">
+                    <!-- <page name="others" position="move"/> -->
+                    <xpath expr="//notebook/page[@name='others']" position="move"></xpath>
+                </xpath>
+            </field>
+        </record>
+        <!-- LIST VIEW INHERITANCE -->
+        <record id="petshop_pet_list_view_plus_inherit" model="ir.ui.view">
+            <field name="name">petshop.pet.list.view.plus.inherit</field>
+            <field name="model">petshop.pet</field>
+            <field name="inherit_id" ref="petshop.petshop_pet_list_view"/>
+            <field name="arch" type="xml">
+                <!-- Add is_vaccinated column after gender -->
+                <field name="gender" position="after">
+                    <field name="is_vaccinated"/>
+                </field>
+                <!-- Add vaccine_note column after gender -->
+                <xpath expr="//field[@name='gender']" position="after">
+                    <field name="vaccine_note"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
