@@ -20,7 +20,7 @@ services:
       # - "20019:8072" # live chat
     tty: true
     command: --
-    # command: --database=V-Inheritance --init=petshop --update=petshop --with-demo
+    # command: --database=VI-Frontend --init=petshop --update=petshop --with-demo
     environment:
       - HOST=db
       - USER=odoo
