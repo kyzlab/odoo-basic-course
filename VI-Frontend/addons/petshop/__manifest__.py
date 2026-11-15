@@ -25,6 +25,11 @@
         'wizard/cage_assign_wizard_views.xml',
         'wizard/meal_batch_wizard_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'petshop/static/src/components/counter/*',
+        ],
+    },
     'demo': [],
     'installable': True,
     'auto_install': False,

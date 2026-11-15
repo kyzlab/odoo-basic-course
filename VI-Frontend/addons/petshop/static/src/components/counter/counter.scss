@@ -1,0 +1,17 @@
+.petshop_counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background: #f8f9fa;
+    margin: 8px 0;
+
+    p {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: #495057;
+    }
+}

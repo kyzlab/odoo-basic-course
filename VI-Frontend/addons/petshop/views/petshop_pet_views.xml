@@ -28,6 +28,9 @@
                             <label for="is_alive"/>
                             <field name="is_alive"/>
                         </div>
+                        <group>
+                            <widget name="counter"/>
+                        </group>
                         <!-- ... group, notebook below -->
                         <group name="basic_info" string="Basic Information">
                             <group>

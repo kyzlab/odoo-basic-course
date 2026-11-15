@@ -1,0 +1,12 @@
+<templates xml:space="preserve">
+    <t t-name="petshop.Counter">
+        <div class="petshop_counter">
+            <p>🐾 Counter: <strong><t t-esc="state.value"/></strong></p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" t-on-click="decrement">−</button>
+                <button class="btn btn-primary"   t-on-click="increment">＋</button>
+                <button class="btn btn-light"     t-on-click="reset">↺ Reset</button>
+            </div>
+        </div>
+    </t>
+</templates>
