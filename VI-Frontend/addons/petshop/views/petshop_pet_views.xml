@@ -30,6 +30,7 @@
                         </div>
                         <group>
                             <widget name="counter"/>
+                            <widget name="mytable"/> <!-- ADD THIS LINE -->
                         </group>
                         <!-- ... group, notebook below -->
                         <group name="basic_info" string="Basic Information">

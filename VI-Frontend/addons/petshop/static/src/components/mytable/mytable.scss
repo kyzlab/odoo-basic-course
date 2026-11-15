@@ -1,0 +1,22 @@
+.petshop_mytable {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin: 8px 0;
+
+    .petshop_table_title {
+        cursor: pointer;
+        font-size: 15px;
+        color: #a24689;  /* petshop brand color */
+        &:hover { text-decoration: underline; }
+    }
+
+    table {
+        font-size: 13px;
+        td:first-child {
+            font-weight: 600;
+            color: #6c757d;
+            width: 40%;
+        }
+    }
+}

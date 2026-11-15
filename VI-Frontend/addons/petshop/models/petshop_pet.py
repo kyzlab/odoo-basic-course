@@ -304,3 +304,7 @@ class PetshopPet(models.Model):
 
     def action_update_feed_time(self):
         self.feed_time = fields.Datetime.now()
+
+    def get_table_title(self, value=''):
+        """Return title for MyTable widget. Called from JS via ORM service."""
+        return f'🐾 Petshop → {value}'

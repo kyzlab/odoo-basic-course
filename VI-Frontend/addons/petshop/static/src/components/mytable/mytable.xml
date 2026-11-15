@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="petshop.MyTable">
+        <div class="petshop_mytable">
+            <strong>
+                <span class="petshop_table_title" t-on-click="onClickTitle">
+                    <t t-esc="state.title"/>
+                </span>
+            </strong>
+            <table class="table table-sm table-bordered mt-2">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="state.rows" t-as="row" t-key="row.key">
+                        <tr>
+                            <td><t t-esc="row.key"/></td>
+                            <td><t t-esc="row.value"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

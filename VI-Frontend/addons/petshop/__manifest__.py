@@ -28,6 +28,7 @@
     'assets': {
         'web.assets_backend': [
             'petshop/static/src/components/counter/*',
+            'petshop/static/src/components/mytable/*',   # add this line
         ],
     },
     'demo': [],
