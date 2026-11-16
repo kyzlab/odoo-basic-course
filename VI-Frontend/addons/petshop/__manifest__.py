@@ -25,12 +25,14 @@
         'wizard/toy_unlink_wizard_views.xml',
         'wizard/cage_assign_wizard_views.xml',
         'wizard/meal_batch_wizard_views.xml',
+        'views/petshop_menus.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'petshop/static/src/components/counter/*',
             'petshop/static/src/components/mytable/*',   # add this line
             'petshop/static/src/components/petstatebadge/*',   # add this line
+            'petshop/static/src/components/dashboard/*',   # add this line
         ],
     },
     'demo': [],

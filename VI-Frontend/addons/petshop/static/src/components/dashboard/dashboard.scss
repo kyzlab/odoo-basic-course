@@ -1,0 +1,13 @@
+.petshop_dashboard {
+    background-color: #f8f9fa;
+    min-height: 100%;
+
+    h3 { color: #a24689; }   // petshop brand color
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        transition: box-shadow 0.2s;
+        &:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important; }
+    }
+}

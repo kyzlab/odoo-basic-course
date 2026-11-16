@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="petshop.Dashboard">
+        <!-- o_action: Odoo full-page action wrapper -->
+        <div class="petshop_dashboard o_action p-4">
+
+            <h3 class="mb-4">🐾 Petshop Dashboard</h3>
+
+            <!-- Loading spinner -->
+            <div t-if="state.loading" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status"/>
+                <p class="mt-3 text-muted">Loading statistics…</p>
+            </div>
+
+            <t t-else="">
+                <!-- Stat cards row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="fs-2 fw-bold text-primary"><t t-esc="state.totalPets"/></div>
+                                <div class="text-muted small">Total Pets</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="fs-2 fw-bold text-success"><t t-esc="state.alivePets"/></div>
+                                <div class="text-muted small">Alive</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="fs-2 fw-bold text-danger"><t t-esc="state.sickPets"/></div>
+                                <div class="text-muted small">Sick</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="fs-2 fw-bold text-warning"><t t-esc="state.speciesCount"/></div>
+                                <div class="text-muted small">Species</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gender breakdown -->
+                <div class="card shadow-sm">
+                    <div class="card-header fw-semibold">🧬 Alive Pets by Gender</div>
+                    <div class="card-body d-flex gap-4">
+                        <t t-foreach="state.byGender" t-as="item" t-key="item.gender">
+                            <div class="text-center">
+                                <div class="fs-3 fw-bold"><t t-esc="item.count"/></div>
+                                <div class="text-muted text-capitalize small"><t t-esc="item.gender"/></div>
+                            </div>
+                        </t>
+                        <div t-if="state.byGender.length === 0" class="text-muted">
+                            No data available.
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

@@ -308,3 +308,32 @@ class PetshopPet(models.Model):
     def get_table_title(self, value=''):
         """Return title for MyTable widget. Called from JS via ORM service."""
         return f'🐾 Petshop → {value}'
+
+    @api.model
+    def get_dashboard_stats(self):
+        """Return aggregated statistics for the Petshop Dashboard.
+        Called from JavaScript via ORM service (orm.call).
+        """
+        Pet = self.env['petshop.pet']
+        Species = self.env['petshop.species']
+
+        # Group alive pets by gender using read_group
+        gender_groups = Pet.read_group(
+            domain=[('is_alive', '=', True)],
+            fields=['gender'],
+            groupby=['gender'],
+        )
+
+        return {
+            'total_pets': Pet.search_count([]),
+            'alive_pets': Pet.search_count([('is_alive', '=', True)]),
+            'sick_pets': Pet.search_count([('state', '=', 'sick')]),
+            'species_count': Species.search_count([]),
+            'by_gender': [
+                {
+                    'gender': g.get('gender') or 'unknown',
+                    'count':  g.get('__count', 0),
+                }
+                for g in gender_groups
+            ],
+        }

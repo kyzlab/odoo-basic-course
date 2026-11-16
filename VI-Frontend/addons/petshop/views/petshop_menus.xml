@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Client Action: tag must match registry.category("actions").add("petshop.dashboard", ...) -->
+        <record id="action_petshop_dashboard" model="ir.actions.client">
+            <field name="name">Dashboard</field>
+            <field name="tag">petshop.dashboard</field>
+        </record>
+
+        <menuitem id="menu_petshop_dashboard"
+            name="Dashboard"
+            parent="petshop.menu_petshop"
+            action="action_petshop_dashboard"
+            sequence="1"/>
+    </data>
+</odoo>
