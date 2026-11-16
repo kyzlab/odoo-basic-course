@@ -15,6 +15,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        #'data/petshop_data.xml',          # ← sample data records
         'views/petshop_pet_views.xml',       # ← declare view
         'views/petshop_species_views.xml',   # ← declare view
         'views/petshop_cage_views.xml',
@@ -29,6 +30,7 @@
         'web.assets_backend': [
             'petshop/static/src/components/counter/*',
             'petshop/static/src/components/mytable/*',   # add this line
+            'petshop/static/src/components/petstatebadge/*',   # add this line
         ],
     },
     'demo': [],

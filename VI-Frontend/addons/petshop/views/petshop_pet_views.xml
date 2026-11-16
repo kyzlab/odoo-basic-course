@@ -16,7 +16,8 @@
                             invisible="state != 'sick'"/>
                         <button name="action_update_feed_time" type="object"
                             string="Feed" class="oe_highlight"/>
-                        <field name="state" widget="statusbar"/>
+                        <!--<field name="state" widget="statusbar"/>-->
+                        <field name="state" widget="pet_state_badge" readonly="1"/>
                     </header>
                     <sheet>
                         <field name="image" widget="image" class="oe_avatar"/>
@@ -137,7 +138,8 @@
                     <field name="weight"/>
                     <field name="mother_id"/>
                     <field name="is_alive"/>
-                    <field name="state"/>
+                    <!-- <field name="state"/> -->
+                    <field name="state" widget="pet_state_badge" optional="show"/>
                 </list>
             </field>
         </record>

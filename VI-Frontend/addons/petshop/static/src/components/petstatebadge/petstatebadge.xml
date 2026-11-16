@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="petshop.PetStateBadge">
+        <!--
+            t-att-class: nối chuỗi class tĩnh với màu động từ badgeConfig.
+            Bootstrap badge classes: badge bg-success, badge bg-danger, etc.
+        -->
+        <span t-att-class="'badge rounded-pill bg-' + badgeConfig.color">
+            <t t-esc="badgeConfig.label"/>
+        </span>
+    </t>
+</templates>
